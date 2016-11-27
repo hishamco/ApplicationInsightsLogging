@@ -8,13 +8,9 @@ namespace ApplicationInsightsLogging
         private readonly Func<string, LogLevel, bool> _filter;
         private readonly ApplicationInsightsSettings _settings;
 
-        public ApplicationInsightsLoggerProvider(Func<string, LogLevel, bool> filter)
+        public ApplicationInsightsLoggerProvider(Func<string, LogLevel, bool> filter, ApplicationInsightsSettings settings)
         {
             _filter = filter;
-        }
-
-        public ApplicationInsightsLoggerProvider(ApplicationInsightsSettings settings)
-        {
             _settings = settings;
         }
 
