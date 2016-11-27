@@ -24,9 +24,15 @@ namespace ApplicationInsightsLogging
             _filter = filter;
             _settings = settings;
             _telemetryClient = new TelemetryClient();
-            if (!_settings.DeveloperMode)
+
+            if (_settings.DeveloperMode.HasValue)
             {
-                if (_settings.InstrumentationKey == null)
+                TelemetryConfiguration.Active.TelemetryChannel.DeveloperMode = _settings.DeveloperMode;
+            }
+
+            if(!_settings.DeveloperMode.Value)
+            {
+                if (string.IsNullOrWhiteSpace(_settings.InstrumentationKey))
                 {
                     throw new ArgumentNullException(nameof(_settings.InstrumentationKey));
                 }
@@ -35,7 +41,6 @@ namespace ApplicationInsightsLogging
                 _telemetryClient.InstrumentationKey = _settings.InstrumentationKey;
             }
         }
-
 
         public IDisposable BeginScope<TState>(TState state)
         {
